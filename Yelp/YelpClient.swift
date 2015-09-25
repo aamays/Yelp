@@ -71,14 +71,16 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         }
         
         print(parameters)
-        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         return self.GET("search", parameters: parameters, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             let dictionaries = response["businesses"] as? [NSDictionary]
             if dictionaries != nil {
                 completion(Business.businesses(array: dictionaries!), nil)
             }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 completion(nil, error)
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         })
     }
 }

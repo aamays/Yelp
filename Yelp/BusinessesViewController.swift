@@ -60,7 +60,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     private func setupSearchBar() {
-
+        // change  the color of the text
+        let textFieldInsideSearchBar = searchBar.valueForKey("searchField") as? UITextField
+        textFieldInsideSearchBar?.textColor = UIColor.whiteColor()
     }
     /*
     // MARK: - Navigation
