@@ -16,11 +16,15 @@
 		222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222D8A7C19CCFAE000D2DB53 /* YelpClient.swift */; };
 		22AAAA991AEA0A9700A544AF /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA981AEA0A9700A544AF /* Business.swift */; };
 		22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */; };
+		AC79C3DA1BB5953F0038D0B0 /* PreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC79C3D91BB5953F0038D0B0 /* PreviewTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AC802E3F1BB38D1500878699 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802E3E1BB38D1500878699 /* SearchViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		AC802E411BB4E6E900878699 /* FilterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802E401BB4E6E900878699 /* FilterTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		AC802E441BB4E74700878699 /* YConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802E431BB4E74700878699 /* YConstants.swift */; settings = {ASSET_TAGS = (); }; };
-		AC802E461BB4F93600878699 /* FiltersLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC802E451BB4F93600878699 /* FiltersLayout.swift */; settings = {ASSET_TAGS = (); }; };
 		AC92B84A1BB12A0400FAB9B3 /* BusinessTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC92B8491BB12A0400FAB9B3 /* BusinessTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		AC9A6D681BB875C0005C3F0E /* BusinessDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9A6D671BB875C0005C3F0E /* BusinessDetailsViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		ACEA90151BB5FB40000F3A29 /* YelpFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA90141BB5FB40000F3A29 /* YelpFilters.swift */; settings = {ASSET_TAGS = (); }; };
+		ACEA90171BB63E8D000F3A29 /* fontastic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACEA90161BB63E8D000F3A29 /* fontastic.ttf */; settings = {ASSET_TAGS = (); }; };
+		ACEA90191BB66656000F3A29 /* ShowSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACEA90181BB66656000F3A29 /* ShowSelectionTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,11 +52,15 @@
 		22AAAA981AEA0A9700A544AF /* Business.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
 		22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessesViewController.swift; sourceTree = "<group>"; };
 		97D8B2E3FFD1AF4F4A707E47 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		AC79C3D91BB5953F0038D0B0 /* PreviewTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewTableViewCell.swift; path = Views/PreviewTableViewCell.swift; sourceTree = "<group>"; };
 		AC802E3E1BB38D1500878699 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AC802E401BB4E6E900878699 /* FilterTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTableViewCell.swift; sourceTree = "<group>"; };
 		AC802E431BB4E74700878699 /* YConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YConstants.swift; sourceTree = "<group>"; };
-		AC802E451BB4F93600878699 /* FiltersLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersLayout.swift; sourceTree = "<group>"; };
 		AC92B8491BB12A0400FAB9B3 /* BusinessTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessTableViewCell.swift; sourceTree = "<group>"; };
+		AC9A6D671BB875C0005C3F0E /* BusinessDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BusinessDetailsViewController.swift; sourceTree = "<group>"; };
+		ACEA90141BB5FB40000F3A29 /* YelpFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YelpFilters.swift; path = Utilities/YelpFilters.swift; sourceTree = "<group>"; };
+		ACEA90161BB63E8D000F3A29 /* fontastic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fontastic.ttf; sourceTree = "<group>"; };
+		ACEA90181BB66656000F3A29 /* ShowSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShowSelectionTableViewCell.swift; path = Views/ShowSelectionTableViewCell.swift; sourceTree = "<group>"; };
 		BBD540129B10DFE60E8C24E2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C56EF0CE844A4EE5819C72AF /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -115,10 +123,10 @@
 		222D8A5819CCF9F900D2DB53 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ACEA90161BB63E8D000F3A29 /* fontastic.ttf */,
 				222D8A6319CCF9F900D2DB53 /* LaunchScreen.xib */,
 				222D8A6119CCF9F900D2DB53 /* Images.xcassets */,
 				222D8A5919CCF9F900D2DB53 /* Info.plist */,
-				AC802E451BB4F93600878699 /* FiltersLayout.swift */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -161,6 +169,7 @@
 			children = (
 				22AAAA9B1AEA1EC300A544AF /* BusinessesViewController.swift */,
 				AC802E3E1BB38D1500878699 /* SearchViewController.swift */,
+				AC9A6D671BB875C0005C3F0E /* BusinessDetailsViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -177,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				AC802E431BB4E74700878699 /* YConstants.swift */,
+				ACEA90141BB5FB40000F3A29 /* YelpFilters.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -186,6 +196,8 @@
 			children = (
 				AC92B8491BB12A0400FAB9B3 /* BusinessTableViewCell.swift */,
 				AC802E401BB4E6E900878699 /* FilterTableViewCell.swift */,
+				AC79C3D91BB5953F0038D0B0 /* PreviewTableViewCell.swift */,
+				ACEA90181BB66656000F3A29 /* ShowSelectionTableViewCell.swift */,
 			);
 			name = "Views ";
 			sourceTree = "<group>";
@@ -284,6 +296,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACEA90171BB63E8D000F3A29 /* fontastic.ttf in Resources */,
 				222D8A6019CCF9F900D2DB53 /* Main.storyboard in Resources */,
 				222D8A6519CCF9F900D2DB53 /* LaunchScreen.xib in Resources */,
 				222D8A6219CCF9F900D2DB53 /* Images.xcassets in Resources */,
@@ -340,11 +353,14 @@
 				AC802E3F1BB38D1500878699 /* SearchViewController.swift in Sources */,
 				AC802E441BB4E74700878699 /* YConstants.swift in Sources */,
 				AC92B84A1BB12A0400FAB9B3 /* BusinessTableViewCell.swift in Sources */,
+				AC9A6D681BB875C0005C3F0E /* BusinessDetailsViewController.swift in Sources */,
 				22AAAA9C1AEA1EC300A544AF /* BusinessesViewController.swift in Sources */,
+				ACEA90151BB5FB40000F3A29 /* YelpFilters.swift in Sources */,
 				22AAAA991AEA0A9700A544AF /* Business.swift in Sources */,
+				ACEA90191BB66656000F3A29 /* ShowSelectionTableViewCell.swift in Sources */,
 				222D8A7D19CCFAE000D2DB53 /* YelpClient.swift in Sources */,
-				AC802E461BB4F93600878699 /* FiltersLayout.swift in Sources */,
 				AC802E411BB4E6E900878699 /* FilterTableViewCell.swift in Sources */,
+				AC79C3DA1BB5953F0038D0B0 /* PreviewTableViewCell.swift in Sources */,
 				222D8A5B19CCF9F900D2DB53 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

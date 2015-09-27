@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct YMainStoryboard {
-    static let FilterTableCellIdentifier = "FilterTableViewCell"
+enum SearchVCCellIdentifiers: String {
+    case FilterTableViewCell, PreviewTableViewCell, ShowSelectionTableViewCell
 }
 
-struct YConstants {
-    
+enum BusinessVCCellIdentifiers: String {
+    case BusinessCell
 }

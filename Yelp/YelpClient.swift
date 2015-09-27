@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 // You can register for Yelp API keys here: http://www.yelp.com/developers/manage_api_keys
 let yelpConsumerKey = "vxKwwcR_NMQ7WaEiQBK_CA"
@@ -58,6 +59,7 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         // Default the location to San Francisco
         var parameters: [String : AnyObject] = ["term": term, "ll": "37.785771,-122.406165"]
 
+
         if sort != nil {
             parameters["sort"] = sort!.rawValue
         }
@@ -71,6 +73,66 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         }
         
         print(parameters)
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        return self.GET("search", parameters: parameters, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            let dictionaries = response["businesses"] as? [NSDictionary]
+            if dictionaries != nil {
+                completion(Business.businesses(array: dictionaries!), nil)
+            }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                completion(nil, error)
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        })
+    }
+
+    func searchWithTerm(term: String, sort: YelpSortMode?, categories: [String]?, deals: Bool?, filters: [YelpFilters]?,completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
+        // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
+        
+        // Default the location to San Francisco
+        var parameters: [String : AnyObject] = ["term": term, "ll": "37.785771,-122.406165"]
+
+        if sort != nil {
+            parameters["sort"] = sort!.rawValue
+        }
+        
+        if categories != nil && categories!.count > 0 {
+            parameters["category_filter"] = (categories!).joinWithSeparator(",")
+        }
+        
+        if deals != nil {
+            parameters["deals_filter"] = deals!
+        }
+
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        return self.GET("search", parameters: parameters, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            let dictionaries = response["businesses"] as? [NSDictionary]
+            if dictionaries != nil {
+                completion(Business.businesses(array: dictionaries!), nil)
+            }
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }, failure: { (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                completion(nil, error)
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        })
+    }
+
+    func searchWithTerm(term: String, atLocation location: CLLocation, withFilters filters: [YelpFilters]?,completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
+        // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
+        
+        // setup up required search query parameters
+        var parameters: [String : AnyObject] = ["term": term, "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"]
+
+        if let filters = filters {
+            print("Filters found")
+            for filter in filters {
+                parameters[filter.apiKey] = filter.getFilterValue()[filter.apiKey]
+            }
+            print("Search Query: \(parameters)")
+        } else {
+            print("No filters found")
+        }
+
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         return self.GET("search", parameters: parameters, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             let dictionaries = response["businesses"] as? [NSDictionary]

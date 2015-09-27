@@ -31,6 +31,7 @@ class BusinessTableViewCell: UITableViewCell {
         reviewsCountLabel.text = "\(business.reviewCount!) Reviews"
         ratingImageView.setImageWithURL(business.ratingImageURL)
         distanceLabel.text = business.distance
+        addressLabel.text = business.address
     }
 
     override func awakeFromNib() {
