@@ -61,3 +61,5 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 * Update map view to tap on pin annotation to segue to BusinessDetailsViewController
 * Test for more corner cases
+* Custom Switch Control
+* Custom Pin Annotations for Map view
