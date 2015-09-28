@@ -2,7 +2,8 @@
 
 This is a Yelp search app using the [Yelp API](http://developer.rottentomatoes.com/docs/read/JSON).
 
-Time spent: `<Number of hours spent>`
+Time spent: 15 hours
+
 
 ### Features
 
@@ -21,7 +22,6 @@ Time spent: `<Number of hours spent>`
 
 #### Optional
 
-- [ ] Implement a custom switch
 - [x] Search results page
    - [x] Infinite scroll for restaurant results
    - [x] Implement map view of restaurant results
@@ -30,6 +30,13 @@ Time spent: `<Number of hours spent>`
    - [x] Categories should show a subset of the full list with a "See All" row to expand. Category list is here: http://www.yelp.com/developers/documentation/category_list (Links to an external site.)
 - [x] Implement the restaurant detail page.
    - [x] Implement map view of restaurant
+- [ ] Implement a custom switch
+
+#### Additional
+
+- [x] Implement CoreLocation and provide search results based on user's current location
+- [x] Ability to call the business from tapping the call section from business details view
+
 
 ### Walkthrough
 

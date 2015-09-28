@@ -160,8 +160,8 @@
                             <rect key="frame" x="112" y="6" width="376" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="minimal" placeholder="e.g. cafe, tapas, BJ's" translatesAutoresizingMaskIntoConstraints="NO" id="Wei-ej-d5W">
-                                    <rect key="frame" x="0.0" y="0.0" width="446" height="33"/>
+                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="e.g. cafe, tapas, BJ's" translatesAutoresizingMaskIntoConstraints="NO" id="Wei-ej-d5W">
+                                    <rect key="frame" x="0.0" y="0.0" width="376" height="33"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -182,7 +182,7 @@
                                 </mask>
                             </variation>
                         </view>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="iec-lR-6N8">
+                        <barButtonItem key="rightBarButtonItem" id="iec-lR-6N8">
                             <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="VU2-3g-XI0">
                                 <rect key="frame" x="504" y="7" width="76" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -390,8 +390,8 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="+1-800-123-4567" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEQ-FJ-1Nc">
-                                                    <rect key="frame" x="48" y="27" width="104" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+1-800-123-4567" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEQ-FJ-1Nc">
+                                                    <rect key="frame" x="48" y="27" width="96" height="14"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
