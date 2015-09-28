@@ -22,7 +22,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         }
         set(newValue) {
             searchBar?.text = newValue
-            loadResultsForBusinessTable()
+            loadResultsForBusinessTable(true)
         }
     }
 
@@ -34,8 +34,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
 
     struct ViewConstants {
         static let DefaultSearchTerm = "Restaurants"
-        static let BusinessCellEstimatedHeight = CGFloat(110)
+        static let BusinessCellEstimatedHeight = CGFloat(150)
         static let DefaultLocation = CLLocation(latitude: CLLocationDegrees(37.7873589), longitude: CLLocationDegrees(-122.408227))
+        static let RowIndexDiffThresholdForTrigger = 5
     }
 
     private var searchBarTextField: UITextField? {
@@ -49,6 +50,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
 
     let locationManager = CLLocationManager()
 
+    struct InfiniteScrolling {
+        var nextOffsetToLoad = 0
+        var hasMoreResults = true
+
+        mutating func resetParameters() {
+            nextOffsetToLoad = 0
+            hasMoreResults = true
+        }
+    }
+
+    var infScrolling = InfiniteScrolling()
+
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +74,6 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         setupSearchBar()
         setupBusinessTableView()
         businessSearchTerm = ViewConstants.DefaultSearchTerm
-        searchBar.becomeFirstResponder()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -75,9 +87,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     // MARK: - Table View Delegate and DataSource methods
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let businessCell = businessTableView.dequeueReusableCellWithIdentifier(BusinessVCCellIdentifiers.BusinessCell.rawValue, forIndexPath: indexPath) as! BusinessTableViewCell
-
         businessCell.business = businesses[indexPath.row]
-
         return businessCell
     }
 
@@ -90,6 +100,16 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         businessTableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return ViewConstants.BusinessCellEstimatedHeight
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if infScrolling.hasMoreResults && (infScrolling.nextOffsetToLoad - indexPath.row) == ViewConstants.RowIndexDiffThresholdForTrigger {
+            print("Calling additional load at row \(indexPath.row)")
+            loadResultsForBusinessTable(false)
+        }
+    }
     // MARK: - Location Manager delegate methods
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
@@ -105,19 +125,22 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     // MARK: - Search VC delegate methods
     func searchViewController(searchViewController: SearchViewController, didSetFilters filters: [YelpFilters]) {
         userSetFilters = filters
-        loadResultsForBusinessTable()
+        infScrolling.resetParameters()
+        loadResultsForBusinessTable(true)
     }
 
     // MARK: - UISearchBar delegate methods
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        loadResultsForBusinessTable()
+        infScrolling.resetParameters()
+        loadResultsForBusinessTable(true)
     }
 
     // MARK: - View Actions
     func refresh(sender:AnyObject) {
         // Code to refresh table view
-        loadResultsForBusinessTable()
+        infScrolling.resetParameters()
+        loadResultsForBusinessTable(true)
     }
 
     // MARK: - Internal Methods
@@ -136,17 +159,28 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         searchBar.delegate = self
     }
 
-    private func loadResultsForBusinessTable() {
-        listingsRefreshControl.beginRefreshing()
+    private func loadResultsForBusinessTable(showActivitity: Bool) {
+        showActivitity ? listingsRefreshControl.beginRefreshing() : ()
         let searchTerm = businessSearchTerm ?? ViewConstants.DefaultSearchTerm
 
-        Business.searchWithTerm(searchTerm, location: currentLocation, filters: searchFilters) { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            
-            for business in businesses {
-                print(business.name!)
-                print(business.address!)
+        Business.searchWithTerm(searchTerm, location: currentLocation, filters: searchFilters, offset: infScrolling.nextOffsetToLoad) { (businesses: [Business]!, error: NSError!) -> Void in
+
+            print("Offset >>> \(self.infScrolling.nextOffsetToLoad) Count returned >>>> \(businesses.count)")
+    
+            if self.infScrolling.nextOffsetToLoad == 0 {
+                self.businesses = businesses
+            } else {
+                self.businesses.appendContentsOf(businesses)
             }
+
+            for b in businesses {
+                print(b.name!)
+            }
+            
+
+
+            self.infScrolling.nextOffsetToLoad += businesses.count
+            self.infScrolling.hasMoreResults = businesses.count < YelpClient.LimitPerRequest ? false : true
             self.businessTableView.reloadData()
             self.listingsRefreshControl.endRefreshing()
         }
@@ -162,6 +196,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
                 searchVC.delegate = self
             }
             
+        } else if let detailsVC = segue.destinationViewController as? BusinessDetailsViewController {
+            let indexPath = businessTableView.indexPathForCell((sender as! BusinessTableViewCell))
+            detailsVC.business = self.businesses[(indexPath?.row)!]
         }
     }
 

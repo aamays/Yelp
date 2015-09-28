@@ -64,7 +64,7 @@ class YelpDealsFilter: YelpFilters {
         isExpandable = false
         apiKey = "deals_filter"
         expandedOptions = [[YelpFilters.DisplayName: "Offering a Deal", YelpFilters.FilterCode: ""]]
-        selectedOptions = [0]
+        selectedOptions = []
         collapsedCellIdentifier = SearchVCCellIdentifiers.FilterTableViewCell
         expandedCellIdentifier = SearchVCCellIdentifiers.FilterTableViewCell
     }
@@ -110,7 +110,7 @@ class YelpSortFilter: YelpFilters {
                            [YelpFilters.DisplayName: "Distance", YelpFilters.FilterCode: YelpSortMode.Distance.rawValue],
                            [YelpFilters.DisplayName: "Rating", YelpFilters.FilterCode: YelpSortMode.HighestRated.rawValue]]
                         // [YelpFilters.DisplayName: "Most Reviewed", YelpFilters.FilterCode: ""] - Filter not available in API
-        selectedOptions = [0]
+        selectedOptions = [1]
         collapsedCellIdentifier = SearchVCCellIdentifiers.PreviewTableViewCell
         expandedCellIdentifier = SearchVCCellIdentifiers.PreviewTableViewCell
     }

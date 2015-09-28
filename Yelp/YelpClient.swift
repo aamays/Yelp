@@ -22,7 +22,8 @@ enum YelpSortMode: Int {
 class YelpClient: BDBOAuth1RequestOperationManager {
     var accessToken: String!
     var accessSecret: String!
-    
+    static let LimitPerRequest = 20
+
     class var sharedInstance : YelpClient {
         struct Static {
             static var token : dispatch_once_t = 0
@@ -117,11 +118,17 @@ class YelpClient: BDBOAuth1RequestOperationManager {
         })
     }
 
-    func searchWithTerm(term: String, atLocation location: CLLocation, withFilters filters: [YelpFilters]?,completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
+    func searchWithTerm(term: String, atLocation location: CLLocation, withFilters filters: [YelpFilters]?, offset: Int?, completion: ([Business]!, NSError!) -> Void) -> AFHTTPRequestOperation {
         // For additional parameters, see http://www.yelp.com/developers/documentation/v2/search_api
         
         // setup up required search query parameters
-        var parameters: [String : AnyObject] = ["term": term, "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)"]
+        var parameters: [String : AnyObject] = ["term": term, "ll": "\(location.coordinate.latitude),\(location.coordinate.longitude)", "limit": YelpClient.LimitPerRequest]
+
+        if let offset = offset {
+            parameters["offset"] = offset
+        } else {
+            parameters["offset"] = 0
+        }
 
         if let filters = filters {
             print("Filters found")

@@ -15,3 +15,7 @@ enum SearchVCCellIdentifiers: String {
 enum BusinessVCCellIdentifiers: String {
     case BusinessCell
 }
+
+enum BusinessDetailVCCellIdentifiers: String {
+    case BusinessDetailViewCell, BusinessMapTableViewCell, BusinessAddressTableViewCell, BusinessPhoneTableViewCell
+}
