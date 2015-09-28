@@ -13,7 +13,7 @@ import CoreLocation
 import MapKit
 import JTProgressHUD
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, MKMapViewDelegate, SearchViewControllerDelegate {
 
     // MARK: - Properties
     var businesses: [Business]!
@@ -43,6 +43,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         static let DefaultLocation = CLLocation(latitude: CLLocationDegrees(37.7873589), longitude: CLLocationDegrees(-122.408227))
         static let RowIndexDiffThresholdForTrigger = 5
         static let HUDLoadingText = "Loading"
+        static let DefaultSearchRadius = CLLocationDistance(4800)
+        static let LeftCalloutFrame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        static let DetailsViewSegueIdentifier = "Show Business Details"
     }
 
     private var searchBarTextField: UITextField? {
@@ -76,7 +79,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
 
+        // setup map view delegate
+        restaurantsMapView.delegate = self
 
         // View setup
         restaurantsMapView.alpha = 0
@@ -131,6 +137,43 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         deviceLocation = nil
     }
 
+    // MARK: - Map View delegate methods
+
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+
+        var annotateView = restaurantsMapView.dequeueReusableAnnotationViewWithIdentifier(Business.MapAnnotationIdentifier)
+
+        if annotateView == nil {
+            annotateView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: Business.MapAnnotationIdentifier)
+            annotateView?.canShowCallout = true
+        } else {
+            annotateView?.annotation = annotation
+        }
+
+        // left call out
+        annotateView?.leftCalloutAccessoryView = nil
+        annotateView?.rightCalloutAccessoryView = nil
+        if let business = annotation as? Business {
+            if business.imageURL != nil {
+                annotateView?.leftCalloutAccessoryView = UIImageView(frame: ViewConstants.LeftCalloutFrame)
+            }
+            annotateView?.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure) as UIButton
+        }
+
+        return annotateView
+    }
+
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        if let business = view.annotation as? Business, let thumbnailImageView = view.leftCalloutAccessoryView as? UIImageView {
+            thumbnailImageView.contentMode = .ScaleAspectFit
+            thumbnailImageView.setImageWithURL(business.imageURL)
+        }
+    }
+
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegueWithIdentifier(ViewConstants.DetailsViewSegueIdentifier, sender: view)
+    }
+
     // MARK: - Search VC delegate methods
     func searchViewController(searchViewController: SearchViewController, didSetFilters filters: [YelpFilters]) {
         userSetFilters = filters
@@ -160,7 +203,6 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         } else {
             businessTableView.alpha = 0
             restaurantsMapView.alpha = 1
-            setupMapView()
         }
     }
 
@@ -204,26 +246,23 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     private func setupMapView() {
 
         // get search radius from filters
-        var searchRadius: CLLocationDistance = 1000
+        var searchRadius: CLLocationDistance = ViewConstants.DefaultSearchRadius
         for filter in searchFilters {
             if let filter = filter as? YelpDistanceFilter {
                 let res = filter.getFilterValue()
                 searchRadius = res[filter.apiKey] as! CLLocationDistance
             }
         }
+
+        // position map centered on user's location and having visibility for search radious
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), searchRadius, searchRadius)
         restaurantsMapView.setRegion(coordinateRegion, animated: true)
+
+        // remove previously added annotations
         restaurantsMapView.removeAnnotations(restaurantsMapView.annotations)
 
         // add restuarants
-        for (index, business) in businesses.enumerate() {
-            if let businessCLLocation = business.businessLocation {
-                let dropPin = MKPointAnnotation()
-                dropPin.coordinate = CLLocationCoordinate2DMake(businessCLLocation.coordinate.latitude, businessCLLocation.coordinate.longitude)
-                dropPin.title = "\(index + 1). \(business.name!)"
-                restaurantsMapView.addAnnotation(dropPin)
-            }
-        }
+        restaurantsMapView.addAnnotations(businesses.filter( { $0.businessLocation != nil } ))
     }
 
 
@@ -238,8 +277,12 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             }
             
         } else if let detailsVC = segue.destinationViewController as? BusinessDetailsViewController {
-            let indexPath = businessTableView.indexPathForCell((sender as! BusinessTableViewCell))
-            detailsVC.business = self.businesses[(indexPath?.row)!]
+            if let cell = sender as? BusinessTableViewCell {
+                let indexPath = businessTableView.indexPathForCell(cell)
+                detailsVC.business = self.businesses[(indexPath?.row)!]
+            } else if let business = sender?.annotation as? Business {
+                detailsVC.business = business
+            }
         }
     }
 
