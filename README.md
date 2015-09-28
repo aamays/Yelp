@@ -16,7 +16,6 @@ Time spent: 15 hours
 - [x] Filter page. Unfortunately, not all the filters are supported in the Yelp API.
    - [x] The filters you should actually have are: category, sort (best match, distance, highest rated), radius (meters), deals (on/off).
    - [x] The filters table should be organized into sections as in the mock.
-   - [x] You can use the default UISwitch for on/off states.
    - [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
    - [x] Display some of the available Yelp categories (choose any 3-4 that you want).
 
@@ -40,4 +39,25 @@ Time spent: 15 hours
 
 ### Walkthrough
 
+#### Portrait
 
+![Video Walkthrough](YelpDemoPortrait.gif)
+
+#### Landscape
+
+![Video Walkthrough](YelpDemoLandscape.gif)
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+#### Development/Testing environment
+
+* Operating System: Yosemite v10.10.5
+* Xcode v7.0
+* iOS v9.0
+* Devices
+ * iPhone 6 Simulator
+
+#### Further improvements to do:
+
+* Update map view to tap on pin annotation to segue to BusinessDetailsViewController
+* Test for more corner cases
