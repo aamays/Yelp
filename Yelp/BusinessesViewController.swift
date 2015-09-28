@@ -11,7 +11,7 @@
 import UIKit
 import CoreLocation
 import MapKit
-
+import JTProgressHUD
 
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate {
 
@@ -27,7 +27,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         }
         set(newValue) {
             searchBar?.text = newValue
-            loadResultsForBusinessTable(true)
+            loadResultsForBusinessTable(true, activityTransition: JTProgressHUDTransition.Default)
         }
     }
 
@@ -76,6 +76,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
+
 
         // View setup
         restaurantsMapView.alpha = 0
@@ -179,8 +180,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         searchBar.delegate = self
     }
 
-    private func loadResultsForBusinessTable(showActivitity: Bool) {
-        showActivitity ? self.listingsRefreshControl.beginRefreshing() : ()
+    private func loadResultsForBusinessTable(showActivitity: Bool, activityTransition: JTProgressHUDTransition = JTProgressHUDTransition.Fade) {
+        showActivitity ? JTProgressHUD.showWithTransition(activityTransition) : ()
         let searchTerm = businessSearchTerm ?? ViewConstants.DefaultSearchTerm
 
         Business.searchWithTerm(searchTerm, location: currentLocation, filters: searchFilters, offset: infScrolling.nextOffsetToLoad) { (businesses: [Business]!, error: NSError!) -> Void in
@@ -195,6 +196,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             self.infScrolling.hasMoreResults = businesses.count < YelpClient.LimitPerRequest ? false : true
             self.businessTableView.reloadData()
             self.setupMapView()
+            JTProgressHUD.hide()
             showActivitity ? self.listingsRefreshControl.endRefreshing() : ()
         }
     }
