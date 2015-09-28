@@ -3,11 +3,14 @@
 //  Yelp
 //
 //  Created by Timothy Lee on 4/23/15.
+//  Updated by Amay Singhal
+//
 //  Copyright (c) 2015 Timothy Lee. All rights reserved.
 //
 
 import UIKit
 import CoreLocation
+import MapKit
 
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate {
 
@@ -15,6 +18,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     var businesses: [Business]!
     @IBOutlet weak var businessTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var restaurantsMapView: MKMapView!
 
     var businessSearchTerm: String? {
         get {
@@ -71,6 +75,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         locationManager.requestWhenInUseAuthorization()
 
         // View setup
+        restaurantsMapView.alpha = 0
         setupSearchBar()
         setupBusinessTableView()
         businessSearchTerm = ViewConstants.DefaultSearchTerm
@@ -106,10 +111,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if infScrolling.hasMoreResults && (infScrolling.nextOffsetToLoad - indexPath.row) == ViewConstants.RowIndexDiffThresholdForTrigger {
-            print("Calling additional load at row \(indexPath.row)")
             loadResultsForBusinessTable(false)
         }
     }
+
     // MARK: - Location Manager delegate methods
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
@@ -143,6 +148,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         loadResultsForBusinessTable(true)
     }
 
+    @IBAction func toggleView(sender: UISegmentedControl) {
+
+        if sender.selectedSegmentIndex == 0 {
+            businessTableView.alpha = 1
+            restaurantsMapView.alpha = 0
+        } else {
+            businessTableView.alpha = 0
+            restaurantsMapView.alpha = 1
+            setupMapView()
+        }
+    }
+
     // MARK: - Internal Methods
     private func setupBusinessTableView() {
         businessTableView.rowHeight = UITableViewAutomaticDimension
@@ -165,26 +182,45 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
 
         Business.searchWithTerm(searchTerm, location: currentLocation, filters: searchFilters, offset: infScrolling.nextOffsetToLoad) { (businesses: [Business]!, error: NSError!) -> Void in
 
-            print("Offset >>> \(self.infScrolling.nextOffsetToLoad) Count returned >>>> \(businesses.count)")
-    
             if self.infScrolling.nextOffsetToLoad == 0 {
                 self.businesses = businesses
             } else {
                 self.businesses.appendContentsOf(businesses)
             }
 
-            for b in businesses {
-                print(b.name!)
-            }
-            
-
-
             self.infScrolling.nextOffsetToLoad += businesses.count
             self.infScrolling.hasMoreResults = businesses.count < YelpClient.LimitPerRequest ? false : true
             self.businessTableView.reloadData()
-            self.listingsRefreshControl.endRefreshing()
+            self.setupMapView()
+            showActivitity ? self.listingsRefreshControl.endRefreshing() : ()
         }
     }
+
+    private func setupMapView() {
+
+        // get search radius from filters
+        var searchRadius: CLLocationDistance = 1000
+        for filter in searchFilters {
+            if let filter = filter as? YelpDistanceFilter {
+                let res = filter.getFilterValue()
+                searchRadius = res[filter.apiKey] as! CLLocationDistance
+            }
+        }
+        let coordinateRegion = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude, longitude: currentLocation.coordinate.longitude), searchRadius, searchRadius)
+        restaurantsMapView.setRegion(coordinateRegion, animated: true)
+        restaurantsMapView.removeAnnotations(restaurantsMapView.annotations)
+
+        // add restuarants
+        for (index, business) in businesses.enumerate() {
+            if let businessCLLocation = business.businessLocation {
+                let dropPin = MKPointAnnotation()
+                dropPin.coordinate = CLLocationCoordinate2DMake(businessCLLocation.coordinate.latitude, businessCLLocation.coordinate.longitude)
+                dropPin.title = "\(index + 1). \(business.name!)"
+                restaurantsMapView.addAnnotation(dropPin)
+            }
+        }
+    }
+
 
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation

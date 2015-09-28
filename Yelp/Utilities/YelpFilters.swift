@@ -110,7 +110,7 @@ class YelpSortFilter: YelpFilters {
                            [YelpFilters.DisplayName: "Distance", YelpFilters.FilterCode: YelpSortMode.Distance.rawValue],
                            [YelpFilters.DisplayName: "Rating", YelpFilters.FilterCode: YelpSortMode.HighestRated.rawValue]]
                         // [YelpFilters.DisplayName: "Most Reviewed", YelpFilters.FilterCode: ""] - Filter not available in API
-        selectedOptions = [1]
+        selectedOptions = [0]
         collapsedCellIdentifier = SearchVCCellIdentifiers.PreviewTableViewCell
         expandedCellIdentifier = SearchVCCellIdentifiers.PreviewTableViewCell
     }

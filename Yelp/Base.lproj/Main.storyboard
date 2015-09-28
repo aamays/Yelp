@@ -132,12 +132,19 @@
                                     <outlet property="delegate" destination="2xI-yr-O5N" id="yuT-Rw-I9Q"/>
                                 </connections>
                             </tableView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="mod-jT-4Eq">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="tP6-dw-T7v" secondAttribute="bottom" id="1Yl-fy-zpx"/>
+                            <constraint firstItem="mod-jT-4Eq" firstAttribute="bottom" secondItem="VBY-gq-v8E" secondAttribute="top" id="Alc-15-OyT"/>
                             <constraint firstAttribute="trailing" secondItem="tP6-dw-T7v" secondAttribute="trailing" id="H7j-hf-Pso"/>
+                            <constraint firstItem="mod-jT-4Eq" firstAttribute="top" secondItem="hR0-74-jRp" secondAttribute="bottom" id="OAH-cD-GJE"/>
+                            <constraint firstItem="mod-jT-4Eq" firstAttribute="leading" secondItem="tP6-dw-T7v" secondAttribute="leading" id="gqH-MO-HTT"/>
                             <constraint firstItem="tP6-dw-T7v" firstAttribute="top" secondItem="XhR-oz-92f" secondAttribute="top" id="ht3-Y2-RHJ"/>
+                            <constraint firstItem="mod-jT-4Eq" firstAttribute="trailing" secondItem="tP6-dw-T7v" secondAttribute="trailing" id="sDA-cw-Zm4"/>
                             <constraint firstItem="tP6-dw-T7v" firstAttribute="leading" secondItem="XhR-oz-92f" secondAttribute="leading" id="yHq-4l-RxH"/>
                         </constraints>
                     </view>
@@ -150,10 +157,10 @@
                             </connections>
                         </barButtonItem>
                         <view key="titleView" contentMode="scaleToFill" id="NnF-Z6-bWu">
-                            <rect key="frame" x="77" y="6" width="446" height="33"/>
+                            <rect key="frame" x="112" y="6" width="376" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="e.g. cafe, tapas, BJ's" translatesAutoresizingMaskIntoConstraints="NO" id="Wei-ej-d5W">
+                                <searchBar contentMode="redraw" misplaced="YES" searchBarStyle="minimal" placeholder="e.g. cafe, tapas, BJ's" translatesAutoresizingMaskIntoConstraints="NO" id="Wei-ej-d5W">
                                     <rect key="frame" x="0.0" y="0.0" width="446" height="33"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -175,9 +182,24 @@
                                 </mask>
                             </variation>
                         </view>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="iec-lR-6N8">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="VU2-3g-XI0">
+                                <rect key="frame" x="504" y="7" width="76" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="List" width="40"/>
+                                    <segment title="Map" width="40"/>
+                                </segments>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="toggleView:" destination="2xI-yr-O5N" eventType="valueChanged" id="LiR-D0-NNo"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="businessTableView" destination="tP6-dw-T7v" id="Uw4-Cz-k7f"/>
+                        <outlet property="restaurantsMapView" destination="mod-jT-4Eq" id="ykE-IU-60u"/>
                         <outlet property="searchBar" destination="Wei-ej-d5W" id="eCh-bC-rz0"/>
                     </connections>
                 </viewController>
