@@ -12,6 +12,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
+
 class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, CLLocationManagerDelegate, SearchViewControllerDelegate {
 
     // MARK: - Properties
@@ -41,6 +42,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         static let BusinessCellEstimatedHeight = CGFloat(150)
         static let DefaultLocation = CLLocation(latitude: CLLocationDegrees(37.7873589), longitude: CLLocationDegrees(-122.408227))
         static let RowIndexDiffThresholdForTrigger = 5
+        static let HUDLoadingText = "Loading"
     }
 
     private var searchBarTextField: UITextField? {
@@ -65,6 +67,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     var infScrolling = InfiniteScrolling()
+
 
     // MARK: - Lifecycle methods
     override func viewDidLoad() {
@@ -177,7 +180,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
 
     private func loadResultsForBusinessTable(showActivitity: Bool) {
-        showActivitity ? listingsRefreshControl.beginRefreshing() : ()
+        showActivitity ? self.listingsRefreshControl.beginRefreshing() : ()
         let searchTerm = businessSearchTerm ?? ViewConstants.DefaultSearchTerm
 
         Business.searchWithTerm(searchTerm, location: currentLocation, filters: searchFilters, offset: infScrolling.nextOffsetToLoad) { (businesses: [Business]!, error: NSError!) -> Void in
