@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreLocation
+import MapKit
 
-class Business: NSObject {
+class Business: NSObject, MKAnnotation {
     let name: String?
     let address: String?
     let imageURL: NSURL?
@@ -21,6 +22,22 @@ class Business: NSObject {
     let open: Bool?
     let displayPhone: String?
     let displayAddress: String?
+
+    static let MapAnnotationIdentifier = "BusinessAnnotation"
+    var title: String? {
+        return name
+    }
+    var subtitle: String?
+    var latitude: Double {
+        return (businessLocation?.coordinate.latitude)!
+    }
+    var longitude: Double {
+        return (businessLocation?.coordinate.longitude)!
+    }
+
+    var coordinate: CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
 
     init(dictionary: NSDictionary) {
 
